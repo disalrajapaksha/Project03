@@ -1,0 +1,73 @@
+:root{
+  --bg-start: #0f172a;
+  --bg-end: #0b3d91;
+  --card: rgba(255,255,255,0.06);
+  --glass: rgba(255,255,255,0.06);
+  --accent: #ffd166;
+  --muted: rgba(255,255,255,0.85);
+  --soft: rgba(255,255,255,0.9);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  color:var(--muted);
+  background: linear-gradient(180deg,var(--bg-start),var(--bg-end));
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+.page-bg{min-height:100vh; display:flex; align-items:center; justify-content:center; padding:48px 20px}
+.container{
+  width:100%;
+  max-width:1100px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  border-radius:14px;
+  padding:28px;
+  box-shadow: 0 8px 30px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.hero{ text-align:center; margin-bottom:18px }
+.site-title{
+  margin:0;
+  font-size:2.4rem;
+  letter-spacing:0.4px;
+  color:var(--soft);
+  text-shadow: 0 4px 18px rgba(11,61,145,0.35);
+}
+.subtitle{ margin:8px 0 0; color:rgba(255,255,255,0.75) }
+
+.content{ display:grid; grid-template-columns: 1fr 340px; gap:22px; align-items:start }
+.text-blocks{ background:transparent; padding:8px 6px }
+.text-blocks p{ line-height:1.6; margin:0 0 12px; padding:8px 12px; border-radius:8px; background: rgba(255,255,255,0.02) }
+
+.image-card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  padding:12px;
+  border-radius:10px;
+  text-align:center;
+  border:1px solid rgba(255,255,255,0.03);
+}
+.image-card img{ max-width:100%; height:auto; border-radius:6px; display:block; margin:0 auto }
+.caption{ margin-top:10px; color:rgba(255,255,255,0.7); font-size:0.95rem }
+
+.site-footer{ text-align:center; margin-top:20px; color:rgba(255,255,255,0.65); font-size:0.95rem }
+
+/* Responsive */
+@media (max-width:880px){
+  .content{ grid-template-columns: 1fr; }
+  .image-card{ order: -1; margin-bottom:8px }
+  .site-title{ font-size:1.8rem }
+}
+
+@media (max-width:420px){
+  .container{ padding:20px }
+  .site-title{ font-size:1.6rem }
+}
+
+/* small utility */
+.muted{ color:rgba(255,255,255,0.65) }
