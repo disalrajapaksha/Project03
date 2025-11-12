@@ -5,63 +5,87 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>My Simple Web Page</title>
 
-  <!-- Embedded styles (inline/internal CSS) -->
+  <!-- Internal decoration: embedded CSS for richer visuals -->
   <style>
-  :root{ --bg-start:#0f172a; --bg-end:#0b3d91; --muted:rgba(255,255,255,0.85); --soft:rgba(255,255,255,0.9); }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{ margin:0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; color:var(--muted); background:linear-gradient(180deg,var(--bg-start),var(--bg-end)); }
-  .page-bg{min-height:100vh; display:flex; align-items:center; justify-content:center; padding:48px 20px}
-  .container{ width:100%; max-width:1100px; background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); border-radius:14px; padding:28px; box-shadow:0 8px 30px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02); backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.04); }
-  .hero{ text-align:center; margin-bottom:18px }
-  .site-title{ margin:0; font-size:2.4rem; letter-spacing:0.4px; color:var(--soft); text-shadow:0 4px 18px rgba(11,61,145,0.35); }
-  .subtitle{ margin:8px 0 0; color:rgba(255,255,255,0.75) }
-  .content{ display:grid; grid-template-columns:1fr 340px; gap:22px; align-items:start }
-  .text-blocks{ background:transparent; padding:8px 6px }
-  .text-blocks p{ line-height:1.6; margin:0 0 12px; padding:8px 12px; border-radius:8px; background:rgba(255,255,255,0.02) }
-  .image-card{ background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:12px; border-radius:10px; text-align:center; border:1px solid rgba(255,255,255,0.03); }
-  .image-card img{ max-width:100%; height:auto; border-radius:6px; display:block; margin:0 auto }
-  .caption{ margin-top:10px; color:rgba(255,255,255,0.7); font-size:0.95rem }
-  .site-footer{ text-align:center; margin-top:20px; color:rgba(255,255,255,0.65); font-size:0.95rem }
-  @media (max-width:880px){ .content{ grid-template-columns:1fr; } .image-card{ order:-1; margin-bottom:8px } .site-title{ font-size:1.8rem } }
-  @media (max-width:420px){ .container{ padding:20px } .site-title{ font-size:1.6rem } }
+    :root{
+      --bg-1: #071028;
+      --bg-2: #0b3d91;
+      --glass: rgba(255,255,255,0.04);
+      --muted: rgba(255,255,255,0.85);
+      --accent: #6ee7b7;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial; color:var(--muted); background:linear-gradient(180deg,var(--bg-1),var(--bg-2));}
+
+    /* Animated radial blobs (decorative) */
+    .bg-blobs{position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden}
+    .blob{ position:absolute; filter:blur(48px) saturate(120%); opacity:0.7; mix-blend-mode:screen; transform:translate3d(0,0,0); }
+    .blob.b1{ width:520px; height:520px; left:-10%; top:-10%; background:radial-gradient(circle at 30% 30%, rgba(110,231,183,0.25), rgba(11,61,145,0.06)); animation:blobmove 14s linear infinite; }
+    .blob.b2{ width:420px; height:420px; right:-8%; bottom:-6%; background:radial-gradient(circle at 70% 70%, rgba(102,126,234,0.18), rgba(11,61,145,0.05)); animation:blobmove 18s linear infinite reverse; }
+    @keyframes blobmove{ 0%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(20px) rotate(18deg)} 100%{transform:translateY(0) rotate(0deg)} }
+
+    .page{position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:56px 20px; z-index:1}
+    .card{ width:100%; max-width:1100px; border-radius:14px; padding:32px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid var(--glass); box-shadow:0 10px 40px rgba(2,6,23,0.6); backdrop-filter:blur(6px); }
+
+    header.hero{text-align:center;margin-bottom:20px}
+    .brand{ display:inline-flex; gap:12px; align-items:center }
+    .logo{ width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#60a5fa); box-shadow:0 6px 24px rgba(16,24,40,0.4); display:flex;align-items:center;justify-content:center;font-weight:700;color:#012; }
+    .site-title{ margin:0;font-size:clamp(1.4rem,2.6vw,2.4rem); color:#fff; letter-spacing:0.2px }
+    .subtitle{ margin:8px 0 0; color:rgba(255,255,255,0.78) }
+
+    .content{ display:grid; grid-template-columns:1fr 340px; gap:24px; align-items:start }
+    .text-blocks p{ background:linear-gradient(180deg, rgba(255,255,255,0.015), transparent); padding:12px 14px; border-radius:10px; margin:0 0 12px; line-height:1.6 }
+
+    .aside{ background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:14px; border-radius:12px; border:1px solid rgba(255,255,255,0.03); text-align:center }
+    .aside img{ width:100%; height:auto; border-radius:8px; display:block }
+    .caption{ color:rgba(255,255,255,0.75); margin-top:10px }
+
+    footer.site-footer{ text-align:center; margin-top:20px; color:rgba(255,255,255,0.65); font-size:0.95rem }
+
+    /* small decorative accent line */
+    .accent-line{ height:6px; width:140px; margin:18px auto 0; border-radius:999px; background:linear-gradient(90deg,var(--accent),#60a5fa); box-shadow:0 6px 18px rgba(92,162,255,0.08) }
+
+    @media (max-width:880px){ .content{ grid-template-columns:1fr } .aside{ order:-1 } }
+    @media (max-width:420px){ .card{ padding:20px } }
+
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce){ .blob{ animation:none } }
   </style>
-
 </head>
 <body>
-  <div class="page-bg">
-    <div class="container" style="border-radius:12px;">
+  <!-- Decorative background blobs (internal decoration) -->
+  <div class="bg-blobs" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+  </div>
+
+  <div class="page">
+    <div class="card">
       <header class="hero">
-        <h1 class="site-title">Welcome to My Website</h1>
-        <p class="subtitle">A clean, responsive sample page styled with embedded CSS.</p>
+        <div class="brand">
+          <div class="logo">SF</div>
+          <div>
+            <h1 class="site-title">Welcome to My Website</h1>
+            <p class="subtitle">A clean, responsive sample page with internal decoration.</p>
+          </div>
+        </div>
+        <div class="accent-line" aria-hidden="true"></div>
       </header>
 
       <main class="content">
         <section class="text-blocks">
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
+          <!-- example content paragraphs -->
+          <p>Welcome — this page showcases internal (embedded) decoration added directly inside the HTML file.</p>
+          <p>The background uses soft, animated blurred blobs and a subtle glass card for a premium look without external assets.</p>
+          <p>All styles are embedded (internal CSS) so nothing else is required to see the decoration live.</p>
+          <p>Resize the window to see the responsive grid collapse gracefully on small screens.</p>
+          <p>Tip: you can swap the placeholder image in the side card with your own branding or illustration.</p>
         </section>
 
-        <aside class="image-card">
-          <img src="https://via.placeholder.com/400x300" alt="Sample Image" style="max-width:100%;border-radius:6px;">
-          <p class="caption">Sample placeholder image</p>
+        <aside class="aside">
+          <img src="https://via.placeholder.com/400x300" alt="Decorative illustration">
+          <p class="caption">Decorative illustration (placeholder)</p>
         </aside>
       </main>
 
@@ -72,172 +96,11 @@
   </div>
 
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+    // fill current year and avoid errors if element missing
+    (function(){
+      var el = document.getElementById('year');
+      if(el) el.textContent = new Date().getFullYear();
+    })();
   </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>My Simple Web Page</title>
-
-  <!-- Embedded styles (inline/internal CSS) -->
-  <style>
-  :root{ --bg-start:#0f172a; --bg-end:#0b3d91; --muted:rgba(255,255,255,0.85); --soft:rgba(255,255,255,0.9); }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{ margin:0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; color:var(--muted); background:linear-gradient(180deg,var(--bg-start),var(--bg-end)); }
-  .page-bg{min-height:100vh; display:flex; align-items:center; justify-content:center; padding:48px 20px}
-  .container{ width:100%; max-width:1100px; background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); border-radius:14px; padding:28px; box-shadow:0 8px 30px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02); backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.04); }
-  .hero{ text-align:center; margin-bottom:18px }
-  .site-title{ margin:0; font-size:2.4rem; letter-spacing:0.4px; color:var(--soft); text-shadow:0 4px 18px rgba(11,61,145,0.35); }
-  .subtitle{ margin:8px 0 0; color:rgba(255,255,255,0.75) }
-  .content{ display:grid; grid-template-columns:1fr 340px; gap:22px; align-items:start }
-  .text-blocks{ background:transparent; padding:8px 6px }
-  .text-blocks p{ line-height:1.6; margin:0 0 12px; padding:8px 12px; border-radius:8px; background:rgba(255,255,255,0.02) }
-  .image-card{ background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:12px; border-radius:10px; text-align:center; border:1px solid rgba(255,255,255,0.03); }
-  .image-card img{ max-width:100%; height:auto; border-radius:6px; display:block; margin:0 auto }
-  .caption{ margin-top:10px; color:rgba(255,255,255,0.7); font-size:0.95rem }
-  .site-footer{ text-align:center; margin-top:20px; color:rgba(255,255,255,0.65); font-size:0.95rem }
-  @media (max-width:880px){ .content{ grid-template-columns:1fr; } .image-card{ order:-1; margin-bottom:8px } .site-title{ font-size:1.8rem } }
-  @media (max-width:420px){ .container{ padding:20px } .site-title{ font-size:1.6rem } }
-  </style>
-
-</head>
-<body>
-  <div class="page-bg">
-    <div class="container" style="border-radius:12px;">
-      <header class="hero">
-        <h1 class="site-title">Welcome to My Website</h1>
-        <p class="subtitle">A clean, responsive sample page styled with embedded CSS.</p>
-      </header>
-
-      <main class="content">
-        <section class="text-blocks">
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-        </section>
-
-        <aside class="image-card">
-          <img src="https://via.placeholder.com/400x300" alt="Sample Image" style="max-width:100%;border-radius:6px;">
-          <p class="caption">Sample placeholder image</p>
-        </aside>
-      </main>
-
-      <footer class="site-footer">
-        <p>© <span id="year"></span> My Website — Built with care.</p>
-      </footer>
-    </div>
-  </div>
-
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>My Simple Web Page</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <div class="page-bg">
-    <div class="container">
-      <header class="hero">
-        <h1 class="site-title">Welcome to My Website</h1>
-        <p class="subtitle">A clean, responsive sample page styled with an external stylesheet.</p>
-      </header>
-
-      <main class="content">
-        <section class="text-blocks">
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-          <p>This is a simple HTML page example.</p>
-        </section>
-
-        <aside class="image-card">
-          <img src="https://via.placeholder.com/400x300" alt="Sample Image">
-          <p class="caption">Sample placeholder image</p>
-        </aside>
-      </main>
-
-      <footer class="site-footer">
-        <p>© <span id="year"></span> My Website — Built with care.</p>
-      </footer>
-    </div>
-  </div>
-
-  <script>
-    // small enhancement: fill current year
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html>
-<head>
-  <title>My Simple Web Page</title>
-  
-
-</head>
-<body>
-  <h1>Welcome to My Website</h1>
-  <p>This is a simple HTML page example.</p>
-  <p>This is a simple HTML page example.</p>
-  <p>This is a simple HTML page example.</p>
-  <p>This is a simple HTML page example.</p>
-  <p>This is a simple HTML page example.</p>
-  <p>This is a simple HTML page example.</p>
-  <p>This is a simple HTML page example.</p>
-  <p>This is a simple HTML page example.</p>
-  <p>This is a simple HTML page example.</p>
-  <p>This is a simple HTML page example.</p>
-  <p>This is a simple HTML page example.</p>
-  <p>This is a simple HTML page example.</p>
-  <p>This is a simple HTML page example.</p>
-  <p>This is a simple HTML page example.</p>
-  <p>This is a simple HTML page example.</p>
-  <p>This is a simple HTML page example.</p>
-  <p>This is a simple HTML page example.</p>
-  <p>This is a simple HTML page example.</p>
-  <img src="https://via.placeholder.com/200" alt="Sample Image">
 </body>
 </html>
